@@ -59,6 +59,6 @@ int main()
         bestScore = 0;
         bestLibrary = NULL;
     }
-    cout << "lol" << endl;
+    cout << "test" << endl;
     return 0;
 }
