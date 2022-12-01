@@ -1,0 +1,23 @@
+# depslib dependency file v1.0
+1669896285 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\main.cpp
+	<iostream>
+	<vector>
+	<map>
+	<algorithm>
+	"Book.h"
+	"Library.h"
+
+1669896285 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\book.cpp
+	"Book.h"
+
+1669896285 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\book.h
+
+1669814899 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\library.cpp
+	"Library.h"
+
+1669896285 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\library.h
+	<vector>
+	<algorithm>
+	<map>
+	"Book.h"
+
