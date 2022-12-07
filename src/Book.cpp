@@ -14,12 +14,19 @@ bool Book::operator<(const Book& other) const
     return baseScore < other.baseScore;
 }
 
-int Book::getBaseScore()
+int Book::operator-(const Book& other) const
+{
+    return baseScore - other.baseScore;
+}
+
+int Book::getBaseScore() const
 {
     return baseScore;
 }
 
-int Book::getID()
+int Book::getID() const
 {
     return id;
 }
+
+

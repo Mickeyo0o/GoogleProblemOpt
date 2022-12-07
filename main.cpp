@@ -54,8 +54,11 @@ int main()
         librariesInOrder.push_back(bestLibrary);
         librariesNotInOrder.erase(std::remove(librariesNotInOrder.begin(), librariesNotInOrder.end(), bestLibrary), librariesNotInOrder.end());
         vector<Book*> booksToUse = bestLibrary->getBooksToUse(D - daysUsedSoFar, booksUsedSoFar);
-        for(Book* b: booksToUse)
+        for(Book* b: booksToUse){
             cout<<b->getID()<<endl;
+            auto it = booksUsedSoFar.find(b->getID());
+            it->second = true;
+        }
         bestScore = 0;
         bestLibrary = NULL;
     }

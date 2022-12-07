@@ -28,6 +28,8 @@ int Library::getSignupTime()
     return signupTime;
 }
 
+bool compareBooks(const Book* a, const Book* b){return a->getBaseScore()>b->getBaseScore();}
+
 const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::map<int, bool>& booksUsedSoFar)
 {
     std::vector<Book*> booksNotUsed;
@@ -38,6 +40,6 @@ const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::ma
     int numOfBooksToScan = std::min(remainingDays*booksPerDay, (int)booksNotUsed.size());
     if(numOfBooks == numOfBooksToScan)
         return booksInLibrary;
-    std::sort(booksUsedSoFar.begin(), booksUsedSoFar.end());
+    std::sort(booksNotUsed.begin(), booksNotUsed.end(), compareBooks);
     return std::vector<Book*>(booksNotUsed.begin(), booksNotUsed.begin()+numOfBooksToScan);
 }

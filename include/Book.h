@@ -7,8 +7,9 @@ class Book
     public:
         Book(int baseScore, int id);
         bool operator < (const Book& other) const;
-        int getBaseScore();
-        int getID();
+        int operator - (const Book& other) const;
+        int getBaseScore() const;
+        int getID() const;
         virtual ~Book();
     private:
         int baseScore;
