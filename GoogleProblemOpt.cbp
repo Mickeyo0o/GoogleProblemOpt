@@ -34,11 +34,15 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/Assignment.h" />
 		<Unit filename="include/Book.h" />
 		<Unit filename="include/Library.h" />
+		<Unit filename="include/LibraryAssignment.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Assignment.cpp" />
 		<Unit filename="src/Book.cpp" />
 		<Unit filename="src/Library.cpp" />
+		<Unit filename="src/LibraryAssignment.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

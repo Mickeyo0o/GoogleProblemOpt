@@ -2,20 +2,23 @@
 #define LIBRARY_H
 #include <vector>
 #include <algorithm>
-#include <map>
+#include <iostream>
+#include <unordered_set>
 #include "Book.h"
 
 
 class Library
 {
     public:
-        Library(int numOfBooks, int signupTime, int booksPerDay);
-        float calculateScore(int maxDays, const std::map<int, bool>& booksUsedSoFar);
+        Library(int id, int numOfBooks, int signupTime, int booksPerDay);
+        float calculateScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar);
         void addBook(Book* book);
+        int getID();
         int getSignupTime();
-        const std::vector<Book*> getBooksToUse(int remainingDays, const std::map<int, bool>& booksUsedSoFar);
+        const std::vector<Book*> getBooksToUse(int remainingDays, const std::unordered_set<int>& booksUsedSoFar);
         virtual ~Library();
     private:
+        int id;
         int numOfBooks;
         int signupTime;
         int booksPerDay;
