@@ -3,17 +3,23 @@
 #include <unordered_set>
 #include <algorithm>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 #include "Book.h"
 #include "Library.h"
 #include "LibraryAssignment.h"
 #include "Assignment.h"
+#include "ParticleSwarm.h"
 
 using namespace std;
 
+
 int main()
 {
+    srand(time(NULL));
     int B, L, D;
-    ifstream InputFile("f_libraries_of_the_world.txt");
+// TO DO CHANGE THIS SHIT INPUT AND OUTPUT
+    ifstream InputFile("c_incunabula.txt");
     InputFile >> B;
     InputFile >> L;
     InputFile >> D;
@@ -34,8 +40,10 @@ int main()
             InputFile >> bookID;
             libraries[i]->addBook(books[bookID]);
         }
+        libraries[i]->sortBooks();
     }
 // Loading data finished
+/*
     Assignment* initialAssignment = new Assignment;
     vector<Library*> librariesNotInOrder(libraries);
     int daysUsedSoFar = 0;
@@ -43,10 +51,10 @@ int main()
     float bestScore = 0;
     float currentScore = 0;
     while(D > daysUsedSoFar && !librariesNotInOrder.empty()) {
-        for (int i = 0; i < librariesNotInOrder.size(); i++) {
+        for (long long unsigned int i = 0; i < librariesNotInOrder.size(); i++) {
             if (D - daysUsedSoFar < librariesNotInOrder[i]->getSignupTime())
                 continue;
-            currentScore = librariesNotInOrder[i]->calculateScore(D, initialAssignment->getUsedBooks());
+            currentScore = librariesNotInOrder[i]->calculateHeuristicScore(D, initialAssignment->getUsedBooks());
             if (bestLibrary == NULL || currentScore > bestScore) {
                 bestScore = currentScore;
                 bestLibrary = librariesNotInOrder[i];
@@ -64,5 +72,24 @@ int main()
     }
     initialAssignment->displayOutput();
     delete initialAssignment;
+*/
+
+    ParticleSwarm test(0.5, 0.5, 0.5, L);
+    for (int i = 0; i < 8; i++) {
+        test.addRandomParticle();
+    }
+    for (int i = 0; i < 1000; i++) {
+        test.doParticleSwarmIter(D, libraries);
+        cout << test.getBestScore() << endl;
+    }
+
+
     return 0;
 }
+
+
+
+
+
+
+

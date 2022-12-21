@@ -13,14 +13,31 @@ void Library::addBook(Book* book)
     booksInLibrary.push_back(book);
 }
 
-float Library::calculateScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar)
+float Library::calculateScore(int remainingDays, std::unordered_set<int>& booksUsedSoFar)
+{
+    int bookScores = 0;
+    int booksToScan = remainingDays * booksPerDay;
+    for (int i = 0; i < booksInLibrary.size(); i++) {
+        if (booksToScan == 0) {
+            break;
+        }
+        if (booksUsedSoFar.find(booksInLibrary[i]->getID()) != booksUsedSoFar.cend()) {
+            bookScores += booksInLibrary[i]->getBaseScore();
+            booksUsedSoFar.insert(booksInLibrary[i]->getID());
+            booksToScan--;
+        }
+    }
+    return bookScores;
+}
+
+float Library::calculateHeuristicScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar)
 {
     int bookScores = 0;
     for (int i = 0; i < booksInLibrary.size(); i++) {
         if(booksUsedSoFar.find(booksInLibrary[i]->getID()) == booksUsedSoFar.cend())
             bookScores += booksInLibrary[i]->getBaseScore();
     }
-    return this->booksPerDay * bookScores / (float)(maxDays - this->signupTime);
+    return (bookScores / (float)(maxDays - this->signupTime))/this->signupTime;
 }
 
 int Library::getID()
@@ -35,6 +52,11 @@ int Library::getSignupTime()
 
 bool compareBooks(const Book* a, const Book* b){return a->getBaseScore()>b->getBaseScore();}
 
+void Library::sortBooks()
+{
+    std::sort(booksInLibrary.begin(), booksInLibrary.end(), compareBooks);
+}
+
 const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::unordered_set<int>& booksUsedSoFar)
 {
     std::vector<Book*> booksNotUsed;
@@ -48,6 +70,5 @@ const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::un
     }
     if(numOfBooks == numOfBooksToScan)
         return booksInLibrary;
-    std::sort(booksNotUsed.begin(), booksNotUsed.end(), compareBooks);
     return std::vector<Book*>(booksNotUsed.begin(), booksNotUsed.begin()+numOfBooksToScan);
 }

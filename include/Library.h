@@ -11,10 +11,12 @@ class Library
 {
     public:
         Library(int id, int numOfBooks, int signupTime, int booksPerDay);
-        float calculateScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar);
+        float calculateScore(int maxDays, std::unordered_set<int>& booksUsedSoFar);
+        float calculateHeuristicScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar);
         void addBook(Book* book);
         int getID();
         int getSignupTime();
+        void sortBooks();
         const std::vector<Book*> getBooksToUse(int remainingDays, const std::unordered_set<int>& booksUsedSoFar);
         virtual ~Library();
     private:

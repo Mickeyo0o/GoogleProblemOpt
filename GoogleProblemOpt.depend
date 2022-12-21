@@ -1,24 +1,27 @@
 # depslib dependency file v1.0
-1670510032 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\main.cpp
+1671630724 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\main.cpp
 	<iostream>
 	<vector>
 	<unordered_set>
 	<algorithm>
 	<fstream>
+	<cstdlib>
+	<ctime>
 	"Book.h"
 	"Library.h"
 	"LibraryAssignment.h"
 	"Assignment.h"
+	"ParticleSwarm.h"
 
 1670414220 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\book.cpp
 	"Book.h"
 
 1670414220 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\book.h
 
-1670510102 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\library.cpp
+1671626967 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\library.cpp
 	"Library.h"
 
-1670508654 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\library.h
+1671626926 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\library.h
 	<vector>
 	<algorithm>
 	<iostream>
@@ -28,7 +31,7 @@
 1670509503 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\libraryassignment.cpp
 	"LibraryAssignment.h"
 
-1670509503 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\libraryassignment.h
+1671023923 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\libraryassignment.h
 	<vector>
 	"Book.h"
 
@@ -40,4 +43,19 @@
 
 1670509555 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\assignment.cpp
 	"Assignment.h"
+
+1671631027 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\particle.cpp
+	"Particle.h"
+
+1671630192 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\particle.h
+	<algorithm>
+	"Library.h"
+	<vector>
+
+1671630669 source:c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\src\particleswarm.cpp
+	"ParticleSwarm.h"
+
+1671630670 c:\users\hp\desktop\pliki\school\semester 3\combinatorial optimazation\googleproblemopt\include\particleswarm.h
+	<vector>
+	"Particle.h"
 

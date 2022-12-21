@@ -38,11 +38,15 @@
 		<Unit filename="include/Book.h" />
 		<Unit filename="include/Library.h" />
 		<Unit filename="include/LibraryAssignment.h" />
+		<Unit filename="include/Particle.h" />
+		<Unit filename="include/ParticleSwarm.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Assignment.cpp" />
 		<Unit filename="src/Book.cpp" />
 		<Unit filename="src/Library.cpp" />
 		<Unit filename="src/LibraryAssignment.cpp" />
+		<Unit filename="src/Particle.cpp" />
+		<Unit filename="src/ParticleSwarm.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

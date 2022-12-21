@@ -11,6 +11,7 @@ class LibraryAssignment
         virtual ~LibraryAssignment();
         int getID();
         const std::vector<int>& getBooksInOrder();
+        int getScore();
 
     private:
         int libraryID;
