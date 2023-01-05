@@ -38,3 +38,32 @@ const std::unordered_set<int>& Assignment::getUsedBooks()
 {
     return usedBooks;
 }
+
+std::vector<int> Assignment::getLibraryIDS()
+{
+    std::vector<int> libraryIDS;
+    for (int i = 0; i < assignment.size(); i++) {
+        libraryIDS.push_back(assignment[i]->getID());
+    }
+    return libraryIDS;
+}
+
+int Assignment::getUpperBound(std::vector<Book*> books)
+{
+    int upper = 0;
+    for(Book* book: books)
+    {
+        if(usedBooks.find(book->getID) == usedBooks.end())
+            upper += book->getBaseScore();
+    }
+}
+
+int Assignment::getLowerBound(std::vector<Book*> books)
+{
+    int lower = 0;
+    for(int bookId: usedBooks)
+    {
+        lower += books[bookId]->getBaseScore();
+    }
+    return lower;
+}

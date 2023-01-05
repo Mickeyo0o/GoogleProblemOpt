@@ -16,12 +16,12 @@ void Library::addBook(Book* book)
 float Library::calculateScore(int remainingDays, std::unordered_set<int>& booksUsedSoFar)
 {
     int bookScores = 0;
-    int booksToScan = remainingDays * booksPerDay;
+    int64_t booksToScan = (int64_t)remainingDays * (int64_t)booksPerDay;
     for (int i = 0; i < booksInLibrary.size(); i++) {
         if (booksToScan == 0) {
             break;
         }
-        if (booksUsedSoFar.find(booksInLibrary[i]->getID()) != booksUsedSoFar.cend()) {
+        if (booksUsedSoFar.find(booksInLibrary[i]->getID()) == booksUsedSoFar.end()) {
             bookScores += booksInLibrary[i]->getBaseScore();
             booksUsedSoFar.insert(booksInLibrary[i]->getID());
             booksToScan--;

@@ -5,6 +5,9 @@ ParticleSwarm::ParticleSwarm(float coefficientVelocity, float coefficientGlobal,
 {
     this->bestGlobalScore = 0;
     this->bestGlobalPos = new int[n];
+    for (int i = 0; i < n; i++) {
+        bestGlobalPos[i] = 0;
+    }
 }
 
 ParticleSwarm::~ParticleSwarm()
@@ -17,9 +20,8 @@ ParticleSwarm::~ParticleSwarm()
 
 void ParticleSwarm::doParticleSwarmIter(int days, const std::vector<Library*>& libraries)
 {
+    int bestScoreInIter = 0;
     for (int i = 0; i < particles.size(); i++) {
-        particles[i]->updateVelocity(coefficientVelocity, coefficientGlobal, coefficientParticle, bestGlobalPos);
-        particles[i]->updatePosition();
         int currentScore = particles[i]->calculateScore(days, libraries);
         if (currentScore > bestGlobalScore) {
             bestGlobalScore = currentScore;
@@ -28,7 +30,13 @@ void ParticleSwarm::doParticleSwarmIter(int days, const std::vector<Library*>& l
                 bestGlobalPos[i] = bestPosP[i];
             }
         }
+        if(currentScore > bestScoreInIter){
+            bestScoreInIter = currentScore;
+        }
+        particles[i]->updatePosition();
+        particles[i]->updateVelocity(coefficientVelocity, coefficientGlobal, coefficientParticle, bestGlobalPos);
     }
+    std::cout<<"Best in iter: "<<bestScoreInIter<<std::endl;
 }
 
 void ParticleSwarm::addRandomParticle()
@@ -38,7 +46,8 @@ void ParticleSwarm::addRandomParticle()
 
 void ParticleSwarm::addParticle(int* pos)
 {
-    particles.push_back(new Particle(n, pos));
+    Particle* toAdd = new Particle(n, pos);
+    particles.push_back(toAdd);
 }
 
 int ParticleSwarm::getBestScore()

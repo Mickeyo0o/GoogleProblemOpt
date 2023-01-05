@@ -1,6 +1,7 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 #include <algorithm>
+#include <random>
 #include "Library.h"
 #include <vector>
 
@@ -15,6 +16,7 @@ class Particle
         void updateVelocity(float coefficientVelocity, float coefficientGlobal, float coefficientParticle, int* bestGlobalPos);
         void updatePosition();
         int* getPosition();
+
 
     private:
         int n;

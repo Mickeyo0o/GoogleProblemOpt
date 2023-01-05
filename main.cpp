@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <cstdlib>
-#include <ctime>
+#include <time.h>
 #include "Book.h"
 #include "Library.h"
 #include "LibraryAssignment.h"
@@ -13,6 +13,7 @@
 
 using namespace std;
 
+int* transformIntoParticle(Assignment* assignment, int L);
 
 int main()
 {
@@ -42,8 +43,7 @@ int main()
         }
         libraries[i]->sortBooks();
     }
-// Loading data finished
-/*
+
     Assignment* initialAssignment = new Assignment;
     vector<Library*> librariesNotInOrder(libraries);
     int daysUsedSoFar = 0;
@@ -70,12 +70,17 @@ int main()
         bestScore = 0;
         bestLibrary = NULL;
     }
-    initialAssignment->displayOutput();
+    cout << "Sorting complete" << endl;
+    int* initialAssignmentParticlePos = transformIntoParticle(initialAssignment, L);
     delete initialAssignment;
-*/
 
-    ParticleSwarm test(0.5, 0.5, 0.5, L);
-    for (int i = 0; i < 8; i++) {
+
+
+
+    ParticleSwarm test(0.6, 0.9, 0.4, L);
+    test.addParticle(initialAssignmentParticlePos);
+    delete[] initialAssignmentParticlePos;
+    for (int i = 0; i < 10; i++) {
         test.addRandomParticle();
     }
     for (int i = 0; i < 1000; i++) {
@@ -86,6 +91,35 @@ int main()
 
     return 0;
 }
+
+int* transformIntoParticle(Assignment* assignment, int L)
+{
+    int* pos = new int[L];
+    for (int i = 0; i < L; i++) {
+        pos[i] = 0;
+    }
+    vector<int> librariesID = assignment->getLibraryIDS();
+    for (int i = 0; i < librariesID.size(); i++) {
+        pos[librariesID[i]] = librariesID.size() - i;
+    }
+    return pos;
+}
+
+struct bNode
+{
+    int useddays;
+    int upperBound;
+    int lowerBound;
+    Assignment* assignment;
+};
+Assignment* branchAndBound(std::vector<Library*> libraries, std::vector<Book*> books)
+{
+    Assignment* bestAssignmentSoFar;
+    int globalBestScore = 0;
+    queue<Assignment*> assignmentQueue;
+
+}
+
 
 
 
