@@ -3,7 +3,8 @@
 ParticleSwarm::ParticleSwarm(float coefficientVelocity, float coefficientGlobal, float coefficientParticle, int n)
     : coefficientGlobal(coefficientGlobal), coefficientVelocity(coefficientVelocity), coefficientParticle(coefficientParticle), n(n)
 {
-    this->bestGlobalScore = 0;
+    itersWithoutImprovement = 0;
+    this->bestGlobalScore = -std::numeric_limits<double>::infinity();
     this->bestGlobalPos = new int[n];
     for (int i = 0; i < n; i++) {
         bestGlobalPos[i] = 0;
@@ -20,37 +21,42 @@ ParticleSwarm::~ParticleSwarm()
 
 void ParticleSwarm::doParticleSwarmIter(int days, const std::vector<Library*>& libraries)
 {
-    int bestScoreInIter = 0;
+    bool hasBestScoreImproved = false;
     for (int i = 0; i < particles.size(); i++) {
-        int currentScore = particles[i]->calculateScore(days, libraries);
+        double currentScore = particles[i]->calculateScore(days, libraries);
+        std::cout<<currentScore<<std::endl;
         if (currentScore > bestGlobalScore) {
             bestGlobalScore = currentScore;
             int* bestPosP = particles[i]->getPosition();
             for (int i = 0; i < n; i++) {
                 bestGlobalPos[i] = bestPosP[i];
             }
-        }
-        if(currentScore > bestScoreInIter){
-            bestScoreInIter = currentScore;
+            hasBestScoreImproved = true;
         }
         particles[i]->updatePosition();
         particles[i]->updateVelocity(coefficientVelocity, coefficientGlobal, coefficientParticle, bestGlobalPos);
     }
-    std::cout<<"Best in iter: "<<bestScoreInIter<<std::endl;
+    if(hasBestScoreImproved) itersWithoutImprovement = 0;
+    else itersWithoutImprovement++;
 }
 
-void ParticleSwarm::addRandomParticle()
+
+void ParticleSwarm::addRandomParticle(double sat)
 {
-    particles.push_back(new Particle(n));
+    particles.push_back(new Particle(n, sat));
 }
-
 void ParticleSwarm::addParticle(int* pos)
 {
-    Particle* toAdd = new Particle(n, pos);
-    particles.push_back(toAdd);
+    particles.push_back(new Particle(n, pos));
 }
-
-int ParticleSwarm::getBestScore()
+double ParticleSwarm::getBestScore()
 {
     return bestGlobalScore;
+}
+int* ParticleSwarm::getBestPos(){
+    return bestGlobalPos;
+}
+int ParticleSwarm::getItersWithoutImprovement()
+{
+    return itersWithoutImprovement;
 }

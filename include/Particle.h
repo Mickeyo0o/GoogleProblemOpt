@@ -2,6 +2,7 @@
 #define PARTICLE_H
 #include <algorithm>
 #include <random>
+#include <math.h>
 #include "Library.h"
 #include <vector>
 
@@ -9,21 +10,22 @@
 class Particle
 {
     public:
+        Particle(int n, double sat);
         Particle(int n, int* pos);
-        Particle(int n);
-        int calculateScore(int days, std::vector<Library*> libraries);
+        double calculateScore(int days, std::vector<Library*> libraries);
         virtual ~Particle();
         void updateVelocity(float coefficientVelocity, float coefficientGlobal, float coefficientParticle, int* bestGlobalPos);
         void updatePosition();
         int* getPosition();
-
-
     private:
         int n;
         int* pos;
-        int* velocity;
+        float* velocity;
         int* bestPos;
-        int bestScore;
+        double bestScore;
+        void fillRandomPos(double sat);
+        void fillRandomVel();
+        bool randomDecision(float vel);
 };
 
 #endif // PARTICLE_H

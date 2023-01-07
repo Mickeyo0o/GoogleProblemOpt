@@ -48,17 +48,18 @@ std::vector<int> Assignment::getLibraryIDS()
     return libraryIDS;
 }
 
-int Assignment::getUpperBound(std::vector<Book*> books)
+long long unsigned int Assignment::getUpperBound(std::vector<Book*> books, int remainingDays)
 {
     int upper = 0;
     for(Book* book: books)
     {
-        if(usedBooks.find(book->getID) == usedBooks.end())
+        if(usedBooks.find(book->getID()) == usedBooks.end())
             upper += book->getBaseScore();
     }
+    return upper*remainingDays;
 }
 
-int Assignment::getLowerBound(std::vector<Book*> books)
+long long unsigned int Assignment::getLowerBound(std::vector<Book*> books)
 {
     int lower = 0;
     for(int bookId: usedBooks)

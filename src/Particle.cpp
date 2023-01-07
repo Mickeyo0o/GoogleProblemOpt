@@ -1,36 +1,30 @@
 #include "Particle.h"
 
 
-
-void fillRandomPos(int n, int* a);
-void fillRandomVel(int n, int* a);
-Particle::Particle(int n, int* pos) : n(n)
+Particle::Particle(int n, double sat) : n(n)
 {
     this->pos = new int[n];
     this->bestPos = new int[n];
-    this->velocity = new int[n];
-    for (int i = 0; i < n; i++) {
-        this->pos[i] = pos[i];
-    }
-    this->bestScore = 0;
+    this->velocity = new float[n];
+    this->bestScore = -std::numeric_limits<double>::infinity();
+    fillRandomPos(sat);
     for (int i = 0; i < n; i++) {
         this->bestPos[i] = pos[i];
     }
-    fillRandomVel(n, velocity);
+    fillRandomVel();
 }
 
-Particle::Particle(int n) : n(n)
+Particle::Particle(int n, int* pos): n(n)
 {
     this->pos = new int[n];
     this->bestPos = new int[n];
-    this->velocity = new int[n];
-    this->bestScore = 0;
-    fillRandomPos(n, pos);
+    this->velocity = new float[n];
+    this->bestScore = -std::numeric_limits<double>::infinity();
     for (int i = 0; i < n; i++) {
+        this->pos[i] = pos[i];
         this->bestPos[i] = pos[i];
-
     }
-    fillRandomVel(n, velocity);
+    fillRandomVel();
 }
 
 Particle::~Particle()
@@ -39,79 +33,102 @@ Particle::~Particle()
     delete[] velocity;
 }
 
-int Particle::calculateScore(int days, std::vector<Library*> libraries)
+double Particle::calculateScore(int days, std::vector<Library*> libraries)
 {
-    int sum = 0;
-    int remainingDays = days;
-    std::unordered_set<int> booksUsedSoFar;
-    std::unordered_set<int> usedLibraries;
-    while(remainingDays > 0) {
-        int bestLibrary = 0;
-        int bestPriority = pos[0];
-        for (int i = 1; i < n; i++) {
-            if (bestPriority < pos[i] && usedLibraries.find(i) == usedLibraries.end() && libraries[i]->getSignupTime() <= remainingDays) {
-                bestLibrary = i;
-                bestPriority = pos[i];
+    double sum = 0;
+    std::unordered_set<int> usedBooks;
+    long long remainingDays = days;
+    int repeatedBooks = 0;
+    for(int i = 0; i < n; i++)
+    {
+        if(pos[i] == 1)
+        {
+            sum += libraries[i]->getSumScoreOfAllBooks();
+            remainingDays -= libraries[i]->getSignupTime();
+            std::vector<Book*> booksFromLibrary = libraries[i]->getAllBooks();
+            for(Book* book: booksFromLibrary)
+            {
+                if(usedBooks.find(book->getID()) != usedBooks.end()) repeatedBooks++;
+                else usedBooks.insert(book->getID());
             }
+
         }
-        usedLibraries.insert(bestLibrary);
-        remainingDays -= libraries[bestLibrary]->getSignupTime();
-        sum += libraries[bestLibrary]->calculateScore(remainingDays, booksUsedSoFar);
     }
-    if (sum > bestScore) {
-        for (int i = 0; i < n; i++) {
+    double score = 0;
+    if(usedBooks.size() > 0)
+    {
+        score = sum - 100.0*repeatedBooks;
+        if(remainingDays < 0)
+        {
+            score += 3000.0*remainingDays;
+        }
+    }
+    if(score > bestScore)
+    {
+        bestScore = score;
+        for(int i = 0; i<n; i++)
+        {
             bestPos[i] = pos[i];
         }
-        bestScore = sum;
     }
-    return sum;
+    return score;
 }
-
-void fillRandomPos(int n, int* a)
-{
-    for(int i = 0; i<n; i++)a[i] = i;
-    std::random_shuffle(&a[0], &a[n-1]);
-}
-void fillRandomVel(int n, int* a)
-{
-    for(int i = 0; i < n; i++) a[i] = rand()%n;
-}
-
 
 void Particle::updateVelocity(float coefficientVelocity, float coefficientGlobal, float coefficientParticle, int* bestGlobalPos)
 {
     float randomGlobal = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     float randomParticle = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-    int new_velocity;
+    float new_velocity;
     for (int i = 0; i < n; i++) {
         new_velocity = coefficientVelocity * velocity[i] +
             randomGlobal * coefficientGlobal * (pos[i] - bestGlobalPos[i]) + randomParticle * coefficientParticle * (pos[i] - bestPos[i]);
-        if (new_velocity < -n ) {
-            new_velocity = -n;
-        } else if (new_velocity > n) {
-            new_velocity = n;
-        }
         velocity[i] = new_velocity;
     }
 }
-
+int sign(float vel)
+{
+    if(vel > 0) return 1;
+    return 0;
+}
 void Particle::updatePosition()
 {
-
-    for (int i = 0; i < n; i++) {
-        int newPos = pos[i] + velocity[i];
-        if(newPos >= 0 && newPos < n){
-            for(int j = 0; j < n; j++){
-                if(pos[j] == newPos){
-                    pos[j] = pos[i];
-                    break;
-                }
+    for(int i = 0; i < n; i++)
+    {
+        if(sign(velocity[i]) != pos[i])
+        {
+            if(this->randomDecision(velocity[i]))
+            {
+                if(pos[i] == 0) pos[i] = 1;
+                else if(pos[i] == 1) pos[i] = 0;
             }
-            pos[i] = newPos;
         }
     }
 }
 int* Particle::getPosition()
 {
     return pos;
+}
+
+void Particle::fillRandomPos(double sat)
+{
+    for(int i = 0; i<n; i++)
+    {
+        pos[i] = (sat >= static_cast<float>(rand())/static_cast<float>(RAND_MAX)?1:0);
+    }
+}
+
+void Particle::fillRandomVel()
+{
+    for(int i = 0; i < n; i++)
+    {
+        velocity[i] = 2.f*static_cast<float>(rand())/static_cast<float>(RAND_MAX)-1;
+    }
+}
+
+bool Particle::randomDecision(float vel)
+{
+    float p = vel/(vel+10.0);
+    if(p < 0)p = -p;
+    bool ret = (p >= static_cast<float>(rand())/static_cast<float>(RAND_MAX));
+    return ret;
 }

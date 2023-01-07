@@ -15,8 +15,8 @@ class Assignment
         void displayOutput();
         const std::unordered_set<int>& getUsedBooks();
         std::vector<int> getLibraryIDS();
-        int getUpperBound(std::vector<Book*> books);
-        int getLowerBound(std::vector<Book*> books);
+        long long unsigned int getUpperBound(std::vector<Book*> books, int remainingDays);
+        long long unsigned int getLowerBound(std::vector<Book*> books);
 
     private:
         std::vector<LibraryAssignment*> assignment;
