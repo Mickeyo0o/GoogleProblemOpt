@@ -13,22 +13,6 @@ void Library::addBook(Book* book)
     booksInLibrary.push_back(book);
 }
 
-float Library::calculateScore(int remainingDays, const std::unordered_set<int>& booksUsedSoFar)
-{
-    int bookScores = 0;
-    long long unsigned int booksToScan = (long long unsigned int)remainingDays * (long long unsigned int)booksPerDay;
-    for (int i = 0; i < booksInLibrary.size(); i++) {
-        if (booksToScan == 0) {
-            break;
-        }
-        if (booksUsedSoFar.find(booksInLibrary[i]->getID()) == booksUsedSoFar.end()) {
-            bookScores += booksInLibrary[i]->getBaseScore();
-            booksToScan--;
-        }
-    }
-    return bookScores;
-}
-
 float Library::calculateHeuristicScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar, const std::unordered_map<int, int>& bookFoundInLibs)
 {
     int bookScores = 0;
@@ -70,16 +54,6 @@ const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::un
     if(numOfBooksToScan == numOfBooks)
         return booksInLibrary;
     return std::vector<Book*>(booksNotUsed.begin(), booksNotUsed.begin()+numOfBooksToScan);
-}
-
-long long unsigned int Library::getSumScoreOfAllBooks()
-{
-    long long unsigned int sum = 0;
-    for(Book* book: booksInLibrary)
-    {
-        sum += book->getBaseScore();
-    }
-    return sum;
 }
 
 const std::vector<Book*> Library::getAllBooks()

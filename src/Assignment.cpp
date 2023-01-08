@@ -1,9 +1,6 @@
 #include "Assignment.h"
 
-Assignment::Assignment()
-{
-    //ctor
-}
+Assignment::Assignment(){}
 
 Assignment::~Assignment()
 {
@@ -39,32 +36,3 @@ const std::unordered_set<int>& Assignment::getUsedBooks()
     return usedBooks;
 }
 
-std::vector<int> Assignment::getLibraryIDS()
-{
-    std::vector<int> libraryIDS;
-    for (int i = 0; i < assignment.size(); i++) {
-        libraryIDS.push_back(assignment[i]->getID());
-    }
-    return libraryIDS;
-}
-
-long long unsigned int Assignment::getUpperBound(std::vector<Book*> books, int remainingDays)
-{
-    int upper = 0;
-    for(Book* book: books)
-    {
-        if(usedBooks.find(book->getID()) == usedBooks.end())
-            upper += book->getBaseScore();
-    }
-    return upper*remainingDays;
-}
-
-long long unsigned int Assignment::getLowerBound(std::vector<Book*> books)
-{
-    int lower = 0;
-    for(int bookId: usedBooks)
-    {
-        lower += books[bookId]->getBaseScore();
-    }
-    return lower;
-}
