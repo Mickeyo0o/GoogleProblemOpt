@@ -13,29 +13,15 @@ void Library::addBook(Book* book)
     booksInLibrary.push_back(book);
 }
 
-float Library::calculateScore(int remainingDays, std::unordered_set<int>& booksUsedSoFar)
-{
-    int bookScores = 0;
-    int64_t booksToScan = (int64_t)remainingDays * (int64_t)booksPerDay;
-    for (int i = 0; i < booksInLibrary.size(); i++) {
-        if (booksToScan == 0) {
-            break;
-        }
-        if (booksUsedSoFar.find(booksInLibrary[i]->getID()) == booksUsedSoFar.end()) {
-            bookScores += booksInLibrary[i]->getBaseScore();
-            booksUsedSoFar.insert(booksInLibrary[i]->getID());
-            booksToScan--;
-        }
-    }
-    return bookScores;
-}
-
-float Library::calculateHeuristicScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar)
+float Library::calculateHeuristicScore(int maxDays, const std::unordered_set<int>& booksUsedSoFar, const std::unordered_map<int, int>& bookFoundInLibs)
 {
     int bookScores = 0;
     for (int i = 0; i < booksInLibrary.size(); i++) {
         if(booksUsedSoFar.find(booksInLibrary[i]->getID()) == booksUsedSoFar.cend())
-            bookScores += booksInLibrary[i]->getBaseScore();
+        {
+            auto it = bookFoundInLibs.find(booksInLibrary[i]->getID());
+            bookScores += booksInLibrary[i]->getBaseScore()/(float)it->second;
+        }
     }
     return (bookScores / (float)(maxDays - this->signupTime))/this->signupTime;
 }
@@ -64,11 +50,18 @@ const std::vector<Book*> Library::getBooksToUse(int remainingDays, const std::un
         if(booksUsedSoFar.find(b->getID()) == booksUsedSoFar.cend())
             booksNotUsed.push_back(b);
     }
-    int numOfBooksToScan = std::min(remainingDays*booksPerDay, (int)booksNotUsed.size());
-    if (numOfBooksToScan <= 0) {
-        return std::vector<Book*>{};
-    }
-    if(numOfBooks == numOfBooksToScan)
+    long long unsigned int numOfBooksToScan = std::min((long long unsigned int)((long long unsigned int)remainingDays*(long long unsigned int)booksPerDay), (long long unsigned int)booksNotUsed.size());
+    if(numOfBooksToScan == numOfBooks)
         return booksInLibrary;
     return std::vector<Book*>(booksNotUsed.begin(), booksNotUsed.begin()+numOfBooksToScan);
+}
+
+const std::vector<Book*> Library::getAllBooks()
+{
+    return booksInLibrary;
+}
+
+int Library::getBooksPerDay()
+{
+    return booksPerDay;
 }

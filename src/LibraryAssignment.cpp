@@ -7,10 +7,7 @@ LibraryAssignment::LibraryAssignment(int id, const std::vector<Book*>& books) : 
     }
 }
 
-LibraryAssignment::~LibraryAssignment()
-{
-    //dtor
-}
+LibraryAssignment::~LibraryAssignment(){}
 
 int LibraryAssignment::getID()
 {
