@@ -32,7 +32,7 @@ $- 1000 \times remainingDays - 1000 \times | \frac{daysAvailable}{sumOfSignupTim
 
 The algorithm balances computational efficiency with solution quality within time constraints. While not reaching theoretical upper bounds, it provides reasonable results within given time limits. Stochastic methods were deemed impractical due to time restrictions, emphasizing the importance of choosing suitable algorithms for problem size and constraints.
 
-## Example Usage
+## Usage
 
 Please make sure you have at least g++ version 6.0 and make installed. Exemplary files to test the program have been provided as *.txt files.
 

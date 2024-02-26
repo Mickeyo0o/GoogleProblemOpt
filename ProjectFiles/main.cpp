@@ -152,7 +152,7 @@ int main()
     float bestScore = 0;
     float currentScore = 0;
     auto currTime = std::chrono::high_resolution_clock::now();
-    while(D > daysUsedSoFar && !librariesNotInOrder.empty() && std::chrono::duration_cast<std::chrono::seconds>(currTime - startTime).count() < 290) //Main optimization algorithm - choose libraries that maximize the heuristic function
+    while(D > daysUsedSoFar && !librariesNotInOrder.empty() && std::chrono::duration_cast<std::chrono::seconds>(currTime - startTime).count() < 280) //Main optimization algorithm - choose libraries that maximize the heuristic function
     {
         currTime = std::chrono::high_resolution_clock::now();
         for (unsigned int i = 0; i < librariesNotInOrder.size(); i++)
