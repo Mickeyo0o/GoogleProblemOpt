@@ -34,11 +34,27 @@ The algorithm balances computational efficiency with solution quality within tim
 
 ## Example Usage
 
-'python main.py input_file.txt'
+Please make sure you have at least g++ version 6.0 and make installed. Exemplary files to test the program have been provided as *.txt files.
 
-Replace input_file.txt with the path to your input file.
+After that go to the directory with a makefile in the terminal and type:
+    
+    make
 
-This project was specifically made to work with the g++ 6.0 version on Linux.
+After that, to run, please execute the command
+
+    ./output 
+
+To load data from the file and run program
+
+    ./output < path_of_the_input_file.txt 
+
+To save results into a file 
+
+    ./output > path_of_the_output_file.txt
+
+To do both
+
+    ./output < path_of_the_input_file.txt > path_of_the_output_file.txt
 
 ## Creators
 
